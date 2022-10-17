@@ -106,32 +106,11 @@ pipeline {
     //     }
     // }
   
-
-    stage ('Deploy Artifact') {
-      steps {
-            sh 'zip -qr ${WORKSPACE}/php-todo.zip ${WORKSPACE}/*'
-            script { 
-                 def server = Artifactory.server 'artifactory-server'
-                 def uploadSpec = """{
-                    "files": [{
-                       "pattern": "php-todo.zip",
-                       "target": "php-todo"
-                    }]
-                 }"""
-
-                 server.upload(uploadSpec) 
-               }
-            // sh 'jfrog rt upload ${WORKSPACE}/php-todo.zip http://35.157.31.6:8082/artifactory/php-todo/todo-${BUILD_NUMBER}.zip'
+    stage ('Deploy to Dev Environment') {
+        steps {
+        build job: 'ansible-capstone-project/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
         }
-  
-    }
-
-
-// stage ('Deploy to Dev Environment') {
-//     steps {
-//     build job: 'ansible-project/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
-//     }
-//   }
+      }
 
 
 }
