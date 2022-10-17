@@ -83,11 +83,7 @@ pipeline {
 
         }
   
-    stage ('Deploy to Dev Environment') {
-        steps {
-        build job: 'ansible-capstone-project/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
-        }
-      }
+
 
     stage('SonarQube Quality Gate') {
       when { branch pattern: "^develop*|^hotfix*|^release*|^main*", comparator: "REGEXP"}
@@ -103,6 +99,12 @@ pipeline {
             }
         }
     }
+
+        stage ('Deploy to Dev Environment') {
+        steps {
+        build job: 'ansible-capstone-project/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
+        }
+      }
 
 }
 
