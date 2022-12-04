@@ -18,14 +18,12 @@ pipeline {
       }
     }
 
-    stages {
-        stage('Test') {
+    stage('Test') {
             steps {
                 sh 'node --version'
                 sh 'svn --version'
             }
         }
-    }
 
     stage('Login to DockerHub') {
       steps {
