@@ -18,16 +18,17 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('Building application ') {
             steps {
-                sh 'node --version'
-                sh 'svn --version'
+                script {
+                    sh " docker build -t dapetoo/php-todo ."
+                }
             }
         }
 
     stage('Login to DockerHub') {
       steps {
-          sh 'docker login -u dapetoo -p ${docker_password}'
+//           sh 'docker login -u dapetoo -p ${docker_password}'
       }
     }
       
