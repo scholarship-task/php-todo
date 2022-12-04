@@ -28,6 +28,7 @@ pipeline {
 
     stage('Login to DockerHub') {
       steps {
+          echo "Docker login"
 //           sh 'docker login -u dapetoo -p ${docker_password}'
       }
     }
