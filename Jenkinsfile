@@ -19,9 +19,9 @@ pipeline {
     }
 
 
-    stage('Install Dependencies') {
+    stage('Login to DockerHub') {
       steps {
-          echo "Test"
+          sh 'docker login -u dapetoo -p ${docker_password}'
       }
     }
       
