@@ -3,7 +3,6 @@ pipeline {
     
     environment {
         IMAGE_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-        DOCKER_IMAGES = "$(docker images)"
     }
 
   stages {
@@ -49,7 +48,7 @@ pipeline {
                 echo "Clean the docker image on the Jenkins Build Server..."
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'password', usernameVariable: 'username')]) {
                     echo "Clean all docker images......."
-                    sh "docker rmi ${DOCKER_IMAGES}"
+                    sh "docker rmi dapetoo/php-todo:${IMAGE_TAG}"
                 }
             }
         }
