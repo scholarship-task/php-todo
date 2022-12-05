@@ -33,10 +33,9 @@ pipeline {
         }
       
       stage('Docker Push') {
-    	agent any
             steps {
                 echo "Login to DockerHub and push the docker image..."
-      	        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+      	        withCredentials([usernamePassword(credentialsId: '0749aa12-736c-4030-84cc-9251547326b4', passwordVariable: 'docker-password')]) {
         	        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                     sh "docker push dapetoo/php-todo:${IMAGE_TAG}"
                 }
