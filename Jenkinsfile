@@ -26,11 +26,19 @@ pipeline {
                 script {
                     echo "building the docker image..."
                     withCredentials([usernameColonPassword(credentialsId: '0749aa12-736c-4030-84cc-9251547326b4', variable: 'docker-password')]) {
-                        sh "docker build -t dapetoo/php-todo:${IMAGE_TAG} ."
-                        sh "echo $PASS | docker login -u $USER --password-stdin"
-                        sh "docker push dapetoo/php-todo:${IMAGE_TAG}"
-                        
+                        sh "docker build -t dapetoo/php-todo:${IMAGE_TAG} ."                 
                     }
+                }
+            }
+        }
+      
+      stage('Docker Push') {
+    	agent any
+            steps {
+                echo "Login to DockerHub and push the docker image..."
+      	        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+        	        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh "docker push dapetoo/php-todo:${IMAGE_TAG}"
                 }
             }
         }
