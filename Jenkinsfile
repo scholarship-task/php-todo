@@ -39,7 +39,14 @@ pipeline {
                     sh "docker login -u ${env.username} -p ${env.password}"
                     echo "Login succeeded......."
                     sh "docker push dapetoo/php-todo:${IMAGE_TAG}"
-                    
+                } //docker rmi $(docker images -q -f dangling=true)
+            }
+        }
+      
+       stage('Cleanup Docker Image on the Jenkins Server') {
+            steps {
+                echo "Cleaning up Host to remove all docker images..."
+                sh "docker rmi $(docker images)"
                 }
             }
         }
