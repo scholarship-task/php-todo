@@ -43,10 +43,11 @@ pipeline {
             }
         }
       
-       stage('Cleanup Docker Image on the Jenkins Server') {
-            steps { 
-                echo "Cleaning up Host to remove all docker images..."
-                script{
+    stage('Cleaning Docker Images') {
+            steps {
+                echo "Clean the docker image on the Jenkins Build Server..."
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'password', usernameVariable: 'username')]) {
+                    echo "Clean docker images......."
                     sh "docker rmi $(docker images)"
                 }
             }
