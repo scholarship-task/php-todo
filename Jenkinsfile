@@ -3,6 +3,7 @@ pipeline {
     
     environment {
         IMAGE_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        DOCKER_IMAGES = "$(docker images)"
     }
 
   stages {
@@ -47,8 +48,8 @@ pipeline {
             steps {
                 echo "Clean the docker image on the Jenkins Build Server..."
                 withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'password', usernameVariable: 'username')]) {
-                    echo "Clean docker images......."
-                    sh "docker rmi $(docker images)"
+                    echo "Clean all docker images......."
+                    sh "docker rmi ${DOCKER_IMAGES}"
                 }
             }
         }
