@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    
+    environment {
+        IMAGE_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+    }
 
   stages {
 
@@ -17,21 +20,19 @@ pipeline {
             git branch: 'dapetoo-docker-build', credentialsId: 'a43263cb-ef76-4719-bdaa-7f8f4e36cf48', url: 'https://github.com/scholarship-task/php-todo'
       }
     }
-
-    stage('Building application ') {
+      
+     stage('build and login image') {
             steps {
                 script {
-                    sh " docker build -t dapetoo/php-todo ."
+                    echo "building the docker image..."
+                    withCredentials([usernameColonPassword(credentialsId: '0749aa12-736c-4030-84cc-9251547326b4', variable: 'docker-password')]) {
+                        sh "docker build -t dapetoo/php-todo:${IMAGE_TAG} ."
+                        sh "echo $PASS | docker login -u $USER --password-stdin"
+                        sh "docker push dapetoo/php-todo:${IMAGE_TAG}"
+                        
+                    }
                 }
             }
         }
-
-    stage('Login to DockerHub') {
-      steps {
-          echo "Docker login"
-//           sh 'docker login -u dapetoo -p ${docker_password}'
-      }
-    }
-      
   }
 }
