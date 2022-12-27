@@ -65,7 +65,7 @@ pipeline {
             scannerHome = tool 'sonarqube'
         }
         steps {
-            withSonarQubeEnv('sonarqube', credentialsId: 'Sonarqube-token') {
+            withSonarQubeEnv('sonarqube') {
                 sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
             }
             timeout(time: 1, unit: 'MINUTES') {
