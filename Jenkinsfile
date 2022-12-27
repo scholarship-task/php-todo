@@ -24,8 +24,8 @@ pipeline {
              sh 'mv .env.sample .env'
              sh 'composer dump-autoload'
              sh 'composer install'
-             sh 'php artisan migrate'
-             sh 'php artisan db:seed'
+            //  sh 'php artisan migrate'
+            //  sh 'php artisan db:seed'
              sh 'php artisan key:generate'
       }
     }
