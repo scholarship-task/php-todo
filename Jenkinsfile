@@ -62,7 +62,7 @@ pipeline {
     stage('SonarQube Quality Gate') {
       when { branch pattern: "^develop*|^hotfix*|^release*|^feature/ci-pipeline*|^main*", comparator: "REGEXP"}
         environment {
-            scannerHome = tool 'SonarQubeScanner'
+            scannerHome = tool 'sonarqube'
         }
         steps {
             withSonarQubeEnv('sonarqube') {
