@@ -58,7 +58,7 @@ pipeline {
     // }
 
 
-
+ 
     stage('SonarQube Quality Gate') {
       when { branch pattern: "^develop*|^hotfix*|^release*|^feature/ci-pipeline*|^main*", comparator: "REGEXP"}
         environment {
